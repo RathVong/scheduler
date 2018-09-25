@@ -1,9 +1,6 @@
 package task
 
 import (
-	"crypto/sha1"
-	"fmt"
-	"io"
 	"reflect"
 	"time"
 )
@@ -68,13 +65,8 @@ func (task *Task) Run() {
 
 // Hash will return the SHA1 representation of the task's data.
 func (task *Task) Hash() ID {
-	hash := sha1.New()
-	_, _ = io.WriteString(hash, task.Func.Name)
-	_, _ = io.WriteString(hash, fmt.Sprintf("%+v", task.Params))
-	_, _ = io.WriteString(hash, fmt.Sprintf("%s", task.Schedule.Duration))
-	_, _ = io.WriteString(hash, fmt.Sprintf("%t", task.Schedule.IsRecurring))
-	_, _ = io.WriteString(hash, fmt.Sprintf("%s", task.ID))
-	return ID(fmt.Sprintf("%x", hash.Sum(nil)))
+
+	return ID(task.ID)
 }
 
 func (task *Task) scheduleNextRun() {
