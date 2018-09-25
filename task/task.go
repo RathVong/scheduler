@@ -24,13 +24,15 @@ type Task struct {
 	Schedule
 	Func   FunctionMeta
 	Params []Param
+	ID     string
 }
 
 // New returns an instance of task
-func New(function FunctionMeta, params []Param) *Task {
+func New(function FunctionMeta, params []Param, id string) *Task {
 	return &Task{
 		Func:   function,
 		Params: params,
+		ID:     id,
 	}
 }
 
@@ -71,6 +73,7 @@ func (task *Task) Hash() ID {
 	_, _ = io.WriteString(hash, fmt.Sprintf("%+v", task.Params))
 	_, _ = io.WriteString(hash, fmt.Sprintf("%s", task.Schedule.Duration))
 	_, _ = io.WriteString(hash, fmt.Sprintf("%t", task.Schedule.IsRecurring))
+	_, _ = io.WriteString(hash, fmt.Sprintf("%s", task.ID))
 	return ID(fmt.Sprintf("%x", hash.Sum(nil)))
 }
 
